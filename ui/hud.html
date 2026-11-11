@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brink level</title>
+  <script type="module" src="vendor/liquid-glass.js"></script>
+  <style>
+    /* Built like the liquid-glass demo's backdrop switcher: a glass track with a glass thumb riding
+       on it, over a vivid backdrop the scene owns (a band of Brink's ribbons, per level).
+       A desktop window can't see what's behind it, so the HUD brings its own light to bend. */
+    html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; cursor: default; user-select: none; }
+    body { font: 600 15px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
+
+    /* Brink's security policy carries nonces, so WebKit blocks the component's own shadow-DOM
+       <style> (it has no nonce). Without it the canvas showed at its raw pixel size, 1.5x the pill,
+       and the glass ran off the bottom and right. This page's styles are allowed, so set the
+       essentials from here through the component's parts. */
+    liquid-glass { position: relative; isolation: isolate; }
+    liquid-glass::part(canvas) { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    liquid-glass::part(fallback) { position: absolute; inset: 0; z-index: 0; }
+    liquid-glass[data-renderer="webgl"][data-ready]::part(fallback) { display: none; }
+    liquid-glass::part(content) { position: relative; z-index: 1; height: 100%; }
+
+    liquid-glass.hud {
+      display: block; box-sizing: border-box; width: 264px; height: 54px; min-height: 0; border-radius: 27px;
+      overflow: hidden; clip-path: inset(0 round 27px); background: #101114;
+    }
+    /* Three layers of glass over the ribbons, like a level bar:
+         [ icon ] [ track, with the thumb filling it ] [ 62% ]
+       The icon and number have their own room, so the fill is never hidden under them. */
+    .shell { position: absolute; inset: 0; border-radius: 27px; --glass-press: 1; --glass-pull: 0; --glass-shadow: 0; }
+    /* The track: a darker glass channel. The thumb sits inside it with 3px all round. */
+    .track {
+      position: absolute; left: 50px; top: 15px; width: 146px; height: 24px; border-radius: 12px;
+      --glass-press: 1; --glass-pull: 0; --glass-shadow: 0; --glass-dome: 0.7; --glass-tint: rgba(0, 0, 0, 0.32);
+    }
+    /* The thumb: its width is the level, tinted in the level's colour. No drop shadow: the
+       component draws it below the pane, which would eat the bottom gap. */
+    .thumb {
+      position: absolute; left: 53px; top: 18px; height: 18px; width: 0; border-radius: 9px;
+      --glass-press: 1; --glass-pull: 0; --glass-shadow: 0; --glass-dome: 0.8; --glass-tint: var(--fill);
+      transition: width 0.14s cubic-bezier(0.25, 1, 0.4, 1);
+    }
+    body { --fill: rgba(43, 212, 196, 0.55); }
+    body.brightness, body.monitor { --fill: rgba(255, 181, 71, 0.6); }
+    body.keyboard { --fill: rgba(255, 106, 43, 0.6); }
+    body.seek { --fill: rgba(64, 200, 190, 0.6); }
+    body.muted { --fill: rgba(200, 200, 205, 0.3); }
+    /* Until the glass renders (or without WebGL): plain surfaces. */
+    .shell { background: rgba(255, 255, 255, 0.06); }
+    .track { background: rgba(0, 0, 0, 0.3); }
+    .thumb { background: var(--fill); }
+    liquid-glass[data-renderer="webgl"][data-ready] [glass] { background: transparent; }
+
+    #icon { position: absolute; left: 6px; top: 5px; width: 44px; height: 44px; display: grid; place-items: center; z-index: 2; }
+    #icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4)); }
+    #pct {
+      position: absolute; left: 196px; right: 6px; top: 0; height: 54px; display: flex; align-items: center; justify-content: center; z-index: 2;
+      font-size: 15px; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <liquid-glass class="hud" id="scene" still dim=".12">
+    <span class="shell" glass></span>
+    <span class="track" glass></span>
+    <span class="thumb" id="thumb" glass></span>
+    <span id="icon"></span>
+    <span id="pct">50%</span>
+  </liquid-glass>
+  <script src="hud.js"></script>
+</body>
+</html>

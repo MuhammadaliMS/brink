@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Brink: Your trackpad has edges</title>
+  <meta name="description" content="Brink is a free macOS menu bar app that turns the edges of your MacBook trackpad into controls: volume on the right, brightness on the left, keyboard light on top and media on the bottom." />
+  <meta name="theme-color" content="#0b0b0c" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="canonical" href="https://zerowing.in/brink/" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/icon-512.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Brink" />
+  <meta property="og:title" content="Brink: Your trackpad has edges" />
+  <meta property="og:description" content="A free menu bar app that turns the edges of your MacBook trackpad into volume, brightness, keyboard light and media controls." />
+  <meta property="og:url" content="https://zerowing.in/brink/" />
+  <meta property="og:image" content="https://zerowing.in/brink/assets/icon-512.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Brink: Your trackpad has edges" />
+  <meta name="twitter:description" content="A free menu bar app that turns the edges of your MacBook trackpad into volume, brightness, keyboard light and media controls." />
+  <meta name="twitter:image" content="https://zerowing.in/brink/assets/icon-512.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" />
+  <link rel="stylesheet" href="styles.css?v=1010" />
+  <script>document.documentElement.classList.add("js");setTimeout(function(){document.documentElement.classList.add("loaded")},2500);</script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <a class="skip" href="#edges">Skip to the gestures</a>
+
+  <!-- ===================================================== NAV -->
+  <header class="nav" id="nav">
+    <div class="nav-plate" aria-hidden="true"></div>
+    <a class="brand" href="#top" aria-label="Brink, back to top">
+      <img src="assets/icon-512.png" width="28" height="28" alt="" />
+      <span>Brink</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#edges">Edges</a>
+      <a href="#corners">Corners</a>
+      <a href="#feel">Feel</a>
+      <a href="#panel">Panel</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="nav-cta" data-magnetic href="https://github.com/MuhammadaliMS/brink-releases/releases/latest/download/Brink.dmg">
+      <span>Download</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8.5m-3.5-3.5L8 11l3.5-3.5M3 13.5h10" /></svg>
+    </a>
+  </header>
+
+  <main>
+    <!-- ===================================================== HERO -->
+    <section class="hero" id="top">
+      <div class="hero-atmos" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <p class="eyebrow" data-hero>A free menu bar app for macOS</p>
+        <h1 class="hero-title" data-split data-hero-title>Your trackpad<br /> has <em>edges.</em></h1>
+        <p class="hero-sub" data-hero>Slide them for volume, brightness and key light. Swipe the bottom to skip a track.</p>
+        <div class="hero-cta" data-hero>
+          <a class="btn" data-magnetic href="https://github.com/MuhammadaliMS/brink-releases/releases/latest/download/Brink.dmg">
+            <span class="btn-label">Download for Mac</span>
+            <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 2.5v8.5m-3.5-3.5L8 11l3.5-3.5M3 13.5h10" /></svg></span>
+          </a>
+          <p class="fine">Free · macOS 13+ · Apple silicon &amp; Intel</p>
+        </div>
+      </div>
+
+      <div class="hero-rig" id="hero-rig" role="img" aria-label="A dark MacBook trackpad seen from above. A fingertip slides up the right edge and the volume display fills, then up the left edge and the brightness display fills.">
+        <div class="hero-lift" data-hero-rig>
+          <div class="deck" aria-hidden="true"></div>
+          <div class="tp" id="tp-hero" aria-hidden="true"></div>
+          <div class="hud hud-hero" id="hud-hero" aria-hidden="true"></div>
+          <span class="rig-tag rig-left mono" aria-hidden="true">Brightness</span>
+          <span class="rig-tag rig-right mono" aria-hidden="true">Volume</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== PINNED STORY -->
+    <section class="story" id="edges" aria-labelledby="story-label">
+      <div class="story-stage" id="story-stage">
+        <div class="story-text">
+          <p class="eyebrow" id="story-label"><span class="dot"></span>Four edges, four controls</p>
+          <div class="chapters" id="chapters">
+            <article class="chapter" style="--tone: var(--teal)">
+              <span class="ch-num mono">01</span>
+              <h2 class="ch-title">Volume</h2>
+              <p class="ch-gesture mono">Right edge · slide</p>
+              <p class="ch-line">Up is louder. The display fills in sixteen steps, the same one your volume keys show.</p>
+              <div class="ch-visual" aria-hidden="true"></div>
+            </article>
+            <article class="chapter" style="--tone: var(--amber)">
+              <span class="ch-num mono">02</span>
+              <h2 class="ch-title">Brightness</h2>
+              <p class="ch-gesture mono">Left edge · slide</p>
+              <p class="ch-line">The screen follows your finger, with the sun you know from the brightness keys.</p>
+              <div class="ch-visual" aria-hidden="true"></div>
+            </article>
+            <article class="chapter" style="--tone: var(--ivory)">
+              <span class="ch-num mono">03</span>
+              <h2 class="ch-title">Key light</h2>
+              <p class="ch-gesture mono">Top edge · slide sideways</p>
+              <p class="ch-line">Left dims the keyboard backlight. Right brings it back up.</p>
+              <div class="ch-visual" aria-hidden="true"></div>
+            </article>
+            <article class="chapter" style="--tone: var(--signal)">
+              <span class="ch-num mono">04</span>
+              <h2 class="ch-title">Media</h2>
+              <p class="ch-gesture mono">Bottom edge · swipe &nbsp;/&nbsp; Corners · double-tap</p>
+              <p class="ch-line">Swipe the bottom edge to skip a track. Double-tap the top-right corner to mute, or give any corner its own job. Double-tap the bottom to play or pause, if you switch it on.</p>
+              <div class="ch-visual" aria-hidden="true"></div>
+            </article>
+          </div>
+          <ol class="story-progress" id="story-progress" aria-hidden="true">
+            <li><span class="mono">01</span>Volume<i><b></b></i></li>
+            <li><span class="mono">02</span>Brightness<i><b></b></i></li>
+            <li><span class="mono">03</span>Key light<i><b></b></i></li>
+            <li><span class="mono">04</span>Media<i><b></b></i></li>
+          </ol>
+        </div>
+
+        <div class="story-scene" id="story-scene">
+          <div class="mac" id="mac" role="img" aria-label="A MacBook seen from the front. A fingertip slides along each edge of the trackpad and the Mac answers: the volume display fills, the screen dims and brightens, the keyboard lights up, and the Now Playing track skips.">
+            <div class="mac-lid">
+              <div class="scr" id="scr">
+                <div class="scr-wall" aria-hidden="true"></div>
+                <div class="scr-menubar" aria-hidden="true">
+                  <span class="mb-apple"></span><b>Finder</b><span>File</span><span>Edit</span><span>View</span><span class="hide-s">Go</span>
+                  <span class="mb-gap"></span>
+                  <span class="scr-brink"><img src="assets/icon-512.png" alt="" width="12" height="12" /></span>
+                  <span class="mb-ic"></span>
+                  <span class="scr-clock mono">9:41</span>
+                </div>
+                <div class="np" id="np" aria-hidden="true">
+                  <div class="np-art"><i class="np-art-a"></i><i class="np-art-b"></i></div>
+                  <div class="np-txt">
+                    <div class="np-track np-a"><b>Track 07</b><span>Artist</span></div>
+                    <div class="np-track np-b"><b>Track 08</b><span>Artist</span></div>
+                  </div>
+                  <div class="np-ctl"><svg viewBox="0 0 60 16"><path d="M10 3 3 8l7 5zM2 3v10" /><path d="M26 3v10l8-5z" /><path d="M48 3l7 5-7 5zM56 3v10" /></svg></div>
+                </div>
+                <div class="scr-dim" id="scr-dim" aria-hidden="true"></div>
+                <div class="hud hud-story" id="hud-story" aria-hidden="true"></div>
+              </div>
+              <i class="mac-notch" aria-hidden="true"></i>
+            </div>
+            <div class="mac-hinge" aria-hidden="true"></div>
+            <div class="mac-deck">
+              <div class="kb" id="kb" aria-hidden="true"></div>
+              <div class="tp" id="tp-story"></div>
+            </div>
+          </div>
+          <p class="story-hint mono" id="story-hint"><span class="hint-dot"></span>Drag an edge to try it</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== THE TRACKPAD, AS A GRID -->
+    <!-- Laid out like the trackpad itself: edges on the sides, corners in the corners.
+         Every tile works: drag the faders, flick the track, double-click a corner. -->
+    <section class="pad-grid" id="corners" aria-labelledby="grid-title">
+      <div class="bento">
+        <button class="b-tile b-corner" data-corner="tl" data-on-label="Opened" aria-label="Top-left corner: Mission Control. Double-click to try.">
+          <span class="b-where mono">Top left</span>
+          <span class="b-ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="7.5" height="6" rx="1.5"/><rect x="13.5" y="5" width="7.5" height="6" rx="1.5"/><rect x="3" y="13" width="7.5" height="6" rx="1.5"/><rect x="13.5" y="13" width="7.5" height="6" rx="1.5"/></svg></span>
+          <span class="b-name">Mission Control</span>
+          <span class="b-how mono">Double-tap</span>
+        </button>
+
+        <div class="b-tile b-edge b-top" data-fader="key" data-axis="x" role="slider" tabindex="0" aria-label="Keyboard light, top edge" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40" style="--tone-rgb: var(--ivory-rgb)">
+          <div class="b-copy"><span class="b-where mono">Top edge</span><span class="b-name">Key light</span></div>
+          <div class="b-track"><div class="b-fill"></div><i class="b-thumb"></i></div>
+          <span class="b-val mono">40</span>
+        </div>
+
+        <button class="b-tile b-corner" data-corner="tr" aria-label="Top-right corner: mute. Double-click to try.">
+          <span class="b-where mono">Top right</span>
+          <span class="b-ico"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="b-wave" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="b-x" d="m16 9.5 5 5m0-5-5 5"/></svg></span>
+          <span class="b-name" data-off="Mute" data-on="Muted">Mute</span>
+          <span class="b-how mono">Double-tap</span>
+        </button>
+
+        <div class="b-tile b-edge b-side" data-fader="bright" data-axis="y" role="slider" tabindex="0" aria-label="Brightness, left edge" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62" style="--tone-rgb: var(--amber-rgb)">
+          <div class="b-copy"><span class="b-where mono">Left edge</span><span class="b-name">Brightness</span></div>
+          <div class="b-track"><div class="b-fill"></div><i class="b-thumb"></i></div>
+          <span class="b-val mono">62</span>
+        </div>
+
+        <div class="b-tile b-face">
+          <p class="eyebrow" data-reveal><span class="dot"></span>The whole trackpad</p>
+          <h2 class="sec-title b-title" id="grid-title" data-split>Every edge a control. Every corner a <em>shortcut.</em></h2>
+          <p class="b-lede" data-reveal>Slide the edges for brightness, volume, keyboard light and music. Double-tap a corner for one of eleven things you pick.</p>
+          <div class="b-actions" data-reveal>
+            <a class="btn" data-magnetic href="https://github.com/MuhammadaliMS/brink-releases/releases/latest/download/Brink.dmg">
+              <span class="btn-label">Download for Mac</span>
+              <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 2.5v8.5m-3.5-3.5L8 11l3.5-3.5M3 13.5h10" /></svg></span>
+            </a>
+            <span class="fine">Free. macOS 13 or later.</span>
+          </div>
+          <p class="b-hint mono" aria-hidden="true">Drag the edges around this box. Double-click a corner.</p>
+        </div>
+
+        <div class="b-tile b-edge b-side" data-fader="vol" data-axis="y" role="slider" tabindex="0" aria-label="Volume, right edge" aria-valuemin="0" aria-valuemax="100" aria-valuenow="48" style="--tone-rgb: var(--teal-rgb)">
+          <div class="b-copy"><span class="b-where mono">Right edge</span><span class="b-name">Volume</span></div>
+          <div class="b-track"><div class="b-fill"></div><i class="b-thumb"></i></div>
+          <span class="b-val mono">48</span>
+        </div>
+
+        <button class="b-tile b-corner" data-corner="bl" aria-label="Bottom-left corner: lock screen. Double-click to try.">
+          <span class="b-where mono">Bottom left</span>
+          <span class="b-ico"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9.5" rx="2"/><path class="b-shackle" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <span class="b-name" data-off="Lock screen" data-on="Locked">Lock screen</span>
+          <span class="b-how mono">Double-tap</span>
+        </button>
+
+        <div class="b-tile b-edge b-bottom" data-swipe style="--tone-rgb: var(--signal-rgb)">
+          <div class="b-copy"><span class="b-where mono">Bottom edge</span><span class="b-name">Skip tracks</span></div>
+          <div class="b-swipe" role="group" aria-label="Media: drag the knob left or right to skip">
+            <button class="b-skip" data-dir="-1" aria-label="Previous track"><svg viewBox="0 0 24 24"><path d="M18 6v12M15 6 6 12l9 6z"/></svg></button>
+            <div class="b-rail"><i class="b-knob" tabindex="0" aria-label="Swipe to skip"></i></div>
+            <button class="b-skip" data-dir="1" aria-label="Next track"><svg viewBox="0 0 24 24"><path d="M6 6v12M9 6l9 6-9 6z"/></svg></button>
+          </div>
+          <span class="b-track-name mono" aria-live="polite">Track 03 · Night Drive</span>
+        </div>
+
+        <button class="b-tile b-corner b-pick" data-corner="br" aria-label="Bottom-right corner: your pick of eleven actions. Double-click to see them.">
+          <span class="b-where mono">Bottom right</span>
+          <span class="b-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-dasharray="2.6 3.2"/><path d="M12 8.5v7M8.5 12h7"/></svg></span>
+          <span class="b-name">Yours</span>
+          <span class="b-how mono">Eleven to pick from</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================== KINETIC BAND -->
+    <section class="band" aria-hidden="true">
+      <div class="band-row" data-dir="-1">
+        <span>Volume</span><i></i><span class="fill amber">Brightness</span><i></i><span>Key light</span><i></i><span>Skip</span><i></i><span>Mute</span><i></i>
+        <span>Volume</span><i></i><span class="fill amber">Brightness</span><i></i><span>Key light</span><i></i><span>Skip</span><i></i><span>Mute</span><i></i>
+      </div>
+      <div class="band-row" data-dir="1">
+        <span>Mute</span><i></i><span>Skip</span><i></i><span>Key light</span><i></i><span>Brightness</span><i></i><span class="fill teal">Volume</span><i></i>
+        <span>Mute</span><i></i><span>Skip</span><i></i><span>Key light</span><i></i><span>Brightness</span><i></i><span class="fill teal">Volume</span><i></i>
+      </div>
+    </section>
+
+    <!-- ===================================================== HOW IT FEELS -->
+    <section class="feel" id="feel" aria-labelledby="feel-title">
+      <header class="feel-head">
+        <p class="eyebrow" data-reveal>How it feels</p>
+        <h2 class="sec-title" id="feel-title" data-split>The small things your hands notice.</h2>
+      </header>
+
+      <ol class="index" id="index">
+        <li class="row" tabindex="0" style="--tone: var(--teal)">
+          <span class="row-num mono">01</span>
+          <h3 class="row-title">Haptic ticks</h3>
+          <p class="row-line">Every step taps back under your finger. Off, Light, Medium or Strong.</p>
+          <div class="row-demo demo-haptic" aria-hidden="true">
+            <div class="hp-pad"><i class="hp-ring"></i><i class="hp-ring"></i><i class="hp-ring"></i><i class="hp-dot"></i></div>
+            <div class="hp-levels mono"><span>Off</span><span>Light</span><span class="on">Medium</span><span>Strong</span></div>
+          </div>
+        </li>
+        <li class="row" tabindex="0" style="--tone: var(--amber)">
+          <span class="row-num mono">02</span>
+          <h3 class="row-title">Fine Control</h3>
+          <p class="row-line">Hold ⇧⌥ while you slide and each step splits into four. Precise Sliding makes it the default.</p>
+          <div class="row-demo demo-fine" aria-hidden="true">
+            <div class="fn-keys"><kbd>⇧</kbd><kbd>⌥</kbd></div>
+            <div class="fn-ruler"><div class="fn-ticks"></div><i class="fn-mark"></i></div>
+          </div>
+        </li>
+        <li class="row" tabindex="0" style="--tone: var(--ivory)">
+          <span class="row-num mono">03</span>
+          <h3 class="row-title">Pointer stays put</h3>
+          <p class="row-line">Slide an edge and the cursor waits exactly where you left it.</p>
+          <div class="row-demo demo-pointer" aria-hidden="true">
+            <div class="pt-screen">
+              <svg class="pt-cursor" viewBox="0 0 20 24"><path d="M3 2.5v17l4.4-4.1 2.9 6.6 2.6-1.1-2.9-6.5h6z" /></svg>
+              <i class="pt-lock"></i>
+            </div>
+            <div class="pt-pad"><i class="pt-edge"></i><i class="pt-finger"></i></div>
+          </div>
+        </li>
+        <li class="row" tabindex="0" style="--tone: var(--teal)">
+          <span class="row-num mono">04</span>
+          <h3 class="row-title">Active Area</h3>
+          <p class="row-line">Let a slide start anywhere on the edge, or only in the bottom ¾, half or quarter.</p>
+          <div class="row-demo demo-area" aria-hidden="true">
+            <div class="ar-pad"><i class="ar-band"></i></div>
+            <div class="ar-labels mono"><span>All</span><span>¾</span><span>½</span><span>¼</span></div>
+          </div>
+        </li>
+        <li class="row" tabindex="0" style="--tone: var(--amber)">
+          <span class="row-num mono">05</span>
+          <h3 class="row-title">Swap Sides</h3>
+          <p class="row-line">Brightness on the right and volume on the left, if that suits your hands.</p>
+          <div class="row-demo demo-swap" aria-hidden="true">
+            <div class="sw-pad"><i class="sw-a"></i><i class="sw-b"></i></div>
+          </div>
+        </li>
+        <li class="row" tabindex="0" style="--tone: var(--signal)">
+          <span class="row-num mono">06</span>
+          <h3 class="row-title">Require Fn or ⌥</h3>
+          <p class="row-line">Only slide while a key is held, so a resting thumb never changes a thing.</p>
+          <div class="row-demo demo-mod" aria-hidden="true">
+            <kbd class="md-key">fn</kbd>
+            <div class="md-pad"><i class="md-edge"></i></div>
+          </div>
+        </li>
+      </ol>
+
+      <p class="also" data-reveal>
+        <span class="mono">Also</span>
+        Magic Mouse support <i></i> Light &amp; Dark <i></i> Liquid-glass panel <i></i> Open at Login <i></i> Updates install themselves
+      </p>
+    </section>
+
+    <!-- ===================================================== MENU BAR -->
+    <section class="menubar" id="panel" aria-labelledby="panel-title">
+      <div class="mb-atmos" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+      <div class="mb-bar" aria-hidden="true">
+        <span class="mb-apple"></span><b>Finder</b><span>File</span><span>Edit</span><span>View</span><span class="hide-s">Go</span><span class="hide-s">Window</span>
+        <span class="mb-gap"></span>
+        <span class="mb-brink"><img src="assets/icon-512.png" alt="" width="16" height="16" /></span>
+        <span class="mb-ic"></span><span class="mb-ic"></span>
+        <span class="mb-clock mono" id="mb-clock">9:41</span>
+      </div>
+
+      <div class="mb-copy">
+        <p class="eyebrow" data-reveal>The panel</p>
+        <h2 class="sec-title" id="panel-title" data-split>Lives in your <em>menu bar.</em></h2>
+        <p class="mb-sub" data-reveal>These are the real panels, running right here. Flip a switch, drag a slider.</p>
+        <dl class="mb-notes" data-reveal>
+          <div><dt class="mono">At a glance</dt><dd>Live levels on the edges that set them, plus haptics, corners, the Media Strip, sensitivity and edge width.</dd></div>
+          <div><dt class="mono">Set once</dt><dd>Swap sides, pick an active area, require a key, hold the pointer, choose Light or Dark and open at login.</dd></div>
+        </dl>
+      </div>
+
+      <div class="mb-panels" id="mb-panels">
+        <figure class="mb-frame f-main" data-depth="1">
+          <iframe src="panel/index.html?v=1010&amp;embed=1&amp;theme=dark" title="Brink menu bar panel, main view" loading="lazy" scrolling="no"></iframe>
+          <figcaption class="mono">Main</figcaption>
+        </figure>
+        <figure class="mb-frame f-settings" data-depth="0.55">
+          <iframe src="panel/index.html?v=1010&amp;embed=1&amp;view=settings&amp;theme=dark" title="Brink menu bar panel, settings view" loading="lazy" scrolling="no"></iframe>
+          <figcaption class="mono">Settings</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================================================== FINALE -->
+    <section class="finale" id="download" aria-labelledby="free-title">
+      <div class="free-wrap">
+        <h2 class="free" id="free-title" aria-label="Free.">
+          <span class="fl" aria-hidden="true"><span>F</span></span><span class="fl" aria-hidden="true"><span>r</span></span><span class="fl" aria-hidden="true"><span>e</span></span><span class="fl" aria-hidden="true"><span>e</span></span><span class="fl dot" aria-hidden="true"><span>.</span></span>
+        </h2>
+        <div class="free-side">
+          <p class="free-lede" data-reveal>Every feature. No account, no trial, nothing to unlock.</p>
+          <a class="btn btn-xl" data-magnetic data-reveal href="https://github.com/MuhammadaliMS/brink-releases/releases/latest/download/Brink.dmg">
+            <span class="btn-label">Download for Mac</span>
+            <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 2.5v8.5m-3.5-3.5L8 11l3.5-3.5M3 13.5h10" /></svg></span>
+          </a>
+          <p class="fine" data-reveal>macOS 13 or later · Universal · Signed and notarized by Apple</p>
+        </div>
+      </div>
+
+      <div class="log" aria-labelledby="log-title">
+        <div class="log-head" data-reveal>
+          <p class="eyebrow">Changelog</p>
+          <h3 id="log-title" class="log-ver">1.0</h3>
+          <time class="mono" datetime="2026-11">November 2026</time>
+        </div>
+        <ul class="log-list">
+          <li data-reveal><span class="mono">01</span>Volume on the right edge and brightness on the left, with the native macOS display.</li>
+          <li data-reveal><span class="mono">02</span>Keyboard light on the top edge. Swipe the bottom edge to skip tracks.</li>
+          <li data-reveal><span class="mono">03</span>Double-tap a corner: mute, Mission Control, lock screen and more. Optional double-tap to play or pause.</li>
+          <li data-reveal><span class="mono">04</span>Haptic ticks, Fine Control and Precise Sliding.</li>
+          <li data-reveal><span class="mono">05</span>Pointer hold, Active Area, Swap Sides and Require Fn or ⌥.</li>
+          <li data-reveal><span class="mono">06</span>Magic Mouse support, Light and Dark, Open at Login, and updates that install themselves.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================================================== FAQ -->
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="faq-head">
+        <p class="eyebrow" data-reveal>FAQ</p>
+        <h2 class="sec-title" id="faq-title" data-split>Questions, answered.</h2>
+      </div>
+      <div class="faq-list" id="faq-list">
+        <div class="q" data-reveal>
+          <button class="q-btn" aria-expanded="false" aria-controls="a1" id="q1"><span>Why does it need Accessibility access?</span><i class="plus" aria-hidden="true"></i></button>
+          <div class="a" id="a1" role="region" aria-labelledby="q1"><div><p>Brink changes volume and brightness by posting the same media keys your keyboard sends, and it holds the pointer still while you slide. macOS only allows both with Accessibility access. Nothing leaves your Mac.</p></div></div>
+        </div>
+        <div class="q" data-reveal>
+          <button class="q-btn" aria-expanded="false" aria-controls="a2" id="q2"><span>Does it work with a Magic Trackpad?</span><i class="plus" aria-hidden="true"></i></button>
+          <div class="a" id="a2" role="region" aria-labelledby="q2"><div><p>Yes. Brink works with any multitouch trackpad, built in or external. There is a Magic Mouse mode too, which listens along the sides of the mouse.</p></div></div>
+        </div>
+        <div class="q" data-reveal>
+          <button class="q-btn" aria-expanded="false" aria-controls="a3" id="q3"><span>Will normal clicks near the edge still work?</span><i class="plus" aria-hidden="true"></i></button>
+          <div class="a" id="a3" role="region" aria-labelledby="q3"><div><p>Yes. Only a slide that starts inside the thin edge strip counts. Taps, clicks and scrolling behave as usual. If you still catch it by accident, narrow the edge width, limit the Active Area or require Fn or ⌥.</p></div></div>
+        </div>
+        <div class="q" data-reveal>
+          <button class="q-btn" aria-expanded="false" aria-controls="a4" id="q4"><span>Is it really free?</span><i class="plus" aria-hidden="true"></i></button>
+          <div class="a" id="a4" role="region" aria-labelledby="q4"><div><p>Yes. Every feature, no account and no trial. Download the disk image, drag Brink to Applications and it updates itself from then on.</p></div></div>
+        </div>
+        <div class="q" data-reveal>
+          <button class="q-btn" aria-expanded="false" aria-controls="a5" id="q5"><span>Which Macs does it run on?</span><i class="plus" aria-hidden="true"></i></button>
+          <div class="a" id="a5" role="region" aria-labelledby="q5"><div><p>Any Mac on macOS 13 Ventura or later. It is a universal app for Apple silicon and Intel, signed and notarized.</p></div></div>
+        </div>
+        <div class="q" data-reveal>
+          <button class="q-btn" aria-expanded="false" aria-controls="a6" id="q6"><span>What is it built with?</span><i class="plus" aria-hidden="true"></i></button>
+          <div class="a" id="a6" role="region" aria-labelledby="q6"><div><p>Brink is written in Rust on Tauri by Zerowing Studios, so it stays small and light. Builds are published on <a class="ul" href="https://github.com/MuhammadaliMS/brink-releases/releases" target="_blank" rel="noopener">GitHub</a>.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== MORE FROM ZEROWING -->
+    <section class="more" id="more" aria-labelledby="more-title">
+      <header class="more-head">
+        <p class="eyebrow" data-reveal>Index</p>
+        <h2 class="more-title" id="more-title" data-split>More from Zerowing</h2>
+      </header>
+      <ul class="projects" id="projects">
+        <li>
+          <a class="proj" href="https://samsariq.com" target="_blank" rel="noopener" data-img="0">
+            <span class="p-num mono">01</span>
+            <span class="p-name">SamsariQ</span>
+            <span class="p-tag mono">Mac app</span>
+            <span class="p-line">Your meetings, transcribed and summarized entirely on your Mac. No cloud.</span>
+            <span class="p-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" /></svg></span>
+            <img class="p-inline" src="assets/projects/samsariq.jpg" alt="" loading="lazy" width="1440" height="900" />
+          </a>
+        </li>
+        <li>
+          <a class="proj" href="https://zerowing.in/glass/" target="_blank" rel="noopener" data-img="1">
+            <span class="p-num mono">02</span>
+            <span class="p-name">Liquid Glass</span>
+            <span class="p-tag mono">Open source</span>
+            <span class="p-line">An open-source web component for real, ray-traced liquid glass. One script tag, any website.</span>
+            <span class="p-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" /></svg></span>
+            <img class="p-inline" src="assets/projects/glass.jpg" alt="" loading="lazy" width="1440" height="900" />
+          </a>
+        </li>
+        <li>
+          <a class="proj" href="https://zerowing.in/music/" target="_blank" rel="noopener" data-img="2">
+            <span class="p-num mono">03</span>
+            <span class="p-name">made by zerowing</span>
+            <span class="p-tag mono">Interactive</span>
+            <span class="p-line">A tribute to Apple Music's made by sound film: power the rig, watch the tank perform, make a mix.</span>
+            <span class="p-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" /></svg></span>
+            <img class="p-inline" src="assets/projects/music.jpg" alt="" loading="lazy" width="1440" height="900" />
+          </a>
+        </li>
+        <li>
+          <a class="proj" href="https://zerowing.in/games/" target="_blank" rel="noopener" data-img="3">
+            <span class="p-num mono">04</span>
+            <span class="p-name">Street Games</span>
+            <span class="p-tag mono">Browser games</span>
+            <span class="p-line">Seven street sports from around the world, built as tiny clay worlds. Free in your browser, against the AI or a friend.</span>
+            <span class="p-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" /></svg></span>
+            <img class="p-inline" src="assets/projects/games.jpg" alt="" loading="lazy" width="1440" height="900" />
+          </a>
+        </li>
+        <li>
+          <a class="proj" href="https://zerowing.in/igloo/prompts/" target="_blank" rel="noopener" data-img="4">
+            <span class="p-num mono">05</span>
+            <span class="p-name">Igloo, in 8 prompts</span>
+            <span class="p-tag mono">Prompts</span>
+            <span class="p-line">An award-winning three.js site rebuilt with Claude, and the eight prompts that built it, side by side with the live result.</span>
+            <span class="p-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" /></svg></span>
+            <img class="p-inline" src="assets/projects/igloo.jpg" alt="" loading="lazy" width="1440" height="900" />
+          </a>
+        </li>
+      </ul>
+      <div class="proj-float" id="proj-float" aria-hidden="true">
+        <div class="pf-inner">
+          <img src="assets/projects/samsariq.jpg" alt="" width="1440" height="900" />
+          <img src="assets/projects/glass.jpg" alt="" width="1440" height="900" />
+          <img src="assets/projects/music.jpg" alt="" width="1440" height="900" />
+          <img src="assets/projects/games.jpg" alt="" width="1440" height="900" />
+          <img src="assets/projects/igloo.jpg" alt="" width="1440" height="900" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================== FOOTER -->
+  <footer class="foot">
+    <div class="foot-grid">
+      <div class="foot-made" data-reveal>
+        <img src="assets/icon-512.png" width="44" height="44" alt="" />
+        <p>Made by <a class="ul" href="https://zerowing.in" target="_blank" rel="noopener">Zerowing Studios</a></p>
+      </div>
+      <nav class="foot-col" aria-label="Brink" data-reveal>
+        <p class="mono">Brink</p>
+        <a class="ul" href="https://github.com/MuhammadaliMS/brink-releases/releases/latest/download/Brink.dmg">Download</a>
+        <a class="ul" href="https://github.com/MuhammadaliMS/brink-releases/releases" target="_blank" rel="noopener">Releases on GitHub</a>
+        <a class="ul" href="#faq">FAQ</a>
+      </nav>
+      <nav class="foot-col" aria-label="Zerowing" data-reveal>
+        <p class="mono">Zerowing</p>
+        <a class="ul" href="https://zerowing.in" target="_blank" rel="noopener">zerowing.in</a>
+        <a class="ul" href="https://samsariq.com" target="_blank" rel="noopener">SamsariQ</a>
+        <a class="ul" href="https://zerowing.in/glass/" target="_blank" rel="noopener">Liquid Glass</a>
+        <a class="ul" href="https://zerowing.in/music/" target="_blank" rel="noopener">made by zerowing</a>
+        <a class="ul" href="https://zerowing.in/games/" target="_blank" rel="noopener">Street Games</a>
+        <a class="ul" href="https://zerowing.in/igloo/prompts/" target="_blank" rel="noopener">Igloo prompts</a>
+      </nav>
+      <div class="foot-badges" data-reveal>
+        <p class="mono">Featured on</p>
+        <a href="https://fazier.com" target="_blank" title="Fazier"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width="120" alt="Fazier badge" /></a>
+        <a href="https://openhunts.com" target="_blank" title="OpenHunts Club"><img src="https://cdn.openhunts.com/badges/club.webp" width="486" height="105" alt="OpenHunts Club Member" /></a>
+        <a href="https://noonlaunch.com/product/brink" target="_blank" title="Noonlaunch"><img src="https://noonlaunch.com/badges/brink.svg?theme=dark" width="220" height="60" alt="Featured on Noonlaunch" /></a>
+        <a href="https://macappindex.com/apps/brink?ref=badge" target="_blank" title="Brink on Mac App Index"><img src="https://macappindex.com/apps/brink/badge.svg?theme=dark&height=40" width="160" height="40" alt="Brink on Mac App Index" /></a>
+      </div>
+      <p class="foot-fine" data-reveal>Mac and macOS are trademarks of Apple Inc. Trackpad gestures require Accessibility access, granted on first launch.</p>
+    </div>
+    <div class="wordmark" aria-hidden="true"><span id="wordmark">Brink</span></div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="main.js?v=1010" defer></script>
+  <script src="bento.js?v=1010" defer></script>
+</body>
+</html>

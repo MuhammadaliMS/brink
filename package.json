@@ -1,0 +1,19 @@
+{
+  "name": "brink",
+  "private": true,
+  "version": "1.0.10",
+  "description": "Turn your MacBook trackpad edges into volume and brightness controls",
+  "license": "GPL-3.0-only",
+  "repository": "github:MuhammadaliMS/brink",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:local": "tauri build --bundles app --no-sign -c '{\"bundle\":{\"createUpdaterArtifacts\":false}}'",
+    "icons": "python3 scripts/make-icons.py && tauri icon src-tauri/icons/source.png",
+    "release": "bash scripts/release.sh",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.0"
+  }
+}

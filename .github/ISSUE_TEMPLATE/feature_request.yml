@@ -1,0 +1,21 @@
+name: Feature idea
+description: A gesture, control or setting you'd like Brink to have
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What you'd do on the trackpad, and what should happen.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it helps
+      description: When would you use it? What do you do today instead?
+  - type: textarea
+    id: conflicts
+    attributes:
+      label: Could it fire by accident?
+      description: Brink lives next to normal clicking and scrolling. How would this stay out of the way?

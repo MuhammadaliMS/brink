@@ -1,0 +1,11 @@
+node_modules
+src-tauri/target
+src-tauri/gen
+.deploy
+deploy/
+.DS_Store
+dist/
+*.codex.log
+src-tauri/helper/libbrinknp.dylib
+launch/
+producthunt/

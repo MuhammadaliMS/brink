@@ -1,0 +1,117 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Brink",
+  "version": "1.0.10",
+  "identifier": "in.zerowing.brink",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "macOSPrivateApi": true,
+    "windows": [
+      {
+        "label": "panel",
+        "title": "Brink",
+        "url": "index.html",
+        "width": 320,
+        "height": 520,
+        "visible": false,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "shadow": true,
+        "focus": true,
+        "acceptFirstMouse": true,
+        "visibleOnAllWorkspaces": true
+      },
+      {
+        "label": "preview",
+        "title": "Brink preview",
+        "url": "preview.html",
+        "width": 400,
+        "height": 300,
+        "visible": false,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "shadow": false,
+        "focus": false,
+        "visibleOnAllWorkspaces": true
+      },
+      {
+        "label": "hud",
+        "title": "Brink level",
+        "url": "hud.html",
+        "width": 264,
+        "height": 54,
+        "visible": false,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "shadow": false,
+        "focus": false,
+        "visibleOnAllWorkspaces": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; script-src 'self'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "publisher": "Zerowing Studios",
+    "copyright": "Copyright © 2026 Zerowing Studios",
+    "category": "Utility",
+    "shortDescription": "Slide along your trackpad edges to change volume and brightness.",
+    "targets": [
+      "app",
+      "dmg"
+    ],
+    "createUpdaterArtifacts": true,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.png"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "13.0",
+      "frameworks": [
+        "helper/libbrinknp.dylib"
+      ],
+      "entitlements": "entitlements.plist",
+      "hardenedRuntime": true,
+      "dmg": {
+        "background": "icons/dmg-background.png",
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        },
+        "windowSize": {
+          "width": 660,
+          "height": 400
+        }
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk0RTU4NDQ2NDJFMERGMDgKUldRSTMrQkNSb1RsbEo1T2dpSXUyTVZucWt1Tzc0bjNYSmY4ajFPaW52cHRTekd1b0F1NWRkWlMK",
+      "endpoints": [
+        "https://github.com/MuhammadaliMS/brink-releases/releases/latest/download/latest.json"
+      ]
+    }
+  }
+}

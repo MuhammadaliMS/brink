@@ -1,0 +1,37 @@
+name: Bug report
+description: Something in Brink doesn't work as it should
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Brink version
+      description: In the panel's Settings, or the menu bar menu.
+      placeholder: "1.0.10"
+    validations:
+      required: true
+  - type: input
+    id: mac
+    attributes:
+      label: Mac and macOS version
+      placeholder: "MacBook Pro M4, macOS 26.1"
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Anything else in the setup
+      description: External monitors, other trackpad or display apps (BetterDisplay, MonitorControl, BetterTouchTool...), what was playing.
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: For levels, monitors or media, paste the end of `~/Library/Logs/in.zerowing.brink/brink.log`.
+      render: text

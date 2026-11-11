@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brink</title>
+  <link rel="stylesheet" href="styles.css?v=1010" />
+  <script type="module" src="vendor/liquid-glass.js"></script>
+</head>
+<body>
+  <!-- The whole panel is a liquid-glass scene. Its backdrop is the user's wallpaper, cropped to
+       exactly where the panel sits, so every [glass] element bends what is really behind it.
+       data-g marks glass elements; app.js gives them `glass` only while their view shows. -->
+  <liquid-glass class="panel" id="panel" still backdrop="aurora" colors="#ff7a2e #ffb547 #2bd4c4 #1c1d20">
+    <!-- ================= MAIN ================= -->
+    <section class="view" id="view-main">
+      <header class="top">
+        <div class="word"><span class="logo"></span>Brink</div>
+        <div class="chip" id="status" data-g><i></i><span>Ready</span></div>
+      </header>
+
+      <!-- Setup: until Accessibility is on and the first slide has happened. -->
+      <div class="card guide" id="guide" hidden>
+        <div class="step" id="step-access">
+          <div class="num">1</div>
+          <div class="txt">
+            <b>Allow Accessibility</b>
+            <span>So Brink can press the volume and brightness keys for you and hold the pointer still.</span>
+            <button class="pill-btn" data-action="access">Open System Settings</button>
+          </div>
+        </div>
+        <div class="step" id="step-slide">
+          <div class="num">2</div>
+          <div class="txt">
+            <b>Slide the right edge</b>
+            <span>One finger, along the very edge of the trackpad. Up is louder.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- The trackpad, mirrored: one plate, and each of its four edges is a control. -->
+      <div class="mirror" id="mirror" data-g>
+        <div class="cap" id="cap-left"><div class="fill"></div><i class="finger"></i><span class="pct"></span><span class="glyph"></span></div>
+        <div class="mid">
+          <div class="strip" id="strip-top" title="Top edge: slide for keyboard light">
+            <i class="corner l" data-corner="topLeft"></i>
+            <svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="2.5"/><path d="M7 11h.01M10 11h.01M13 11h.01M16 11h.01M8 14.5h8"/></svg>
+            <span>Key light</span>
+            <i class="finger"></i>
+            <i class="corner r" data-corner="topRight"></i>
+          </div>
+          <div class="readout" id="readout"><b id="readout-value"></b><span id="readout-label">Slide an edge</span></div>
+          <div class="strip" id="strip-media" title="Bottom edge: drag to seek, tap for previous, play/pause, next">
+            <svg viewBox="0 0 24 24"><path d="M18 6v12M15 6 6 12l9 6z" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M6 6v12M9 6l9 6-9 6z" fill="currentColor"/></svg>
+            <i class="finger"></i>
+            <i class="corner l" data-corner="bottomLeft"></i>
+            <i class="corner r" data-corner="bottomRight"></i>
+          </div>
+        </div>
+        <div class="cap" id="cap-right"><div class="fill"></div><i class="finger"></i><span class="pct"></span><span class="glyph"></span></div>
+        <!-- Corner setup, right on the trackpad: each chip sits in the corner it sets. -->
+        <div class="corner-edit" id="corner-edit" hidden>
+          <label class="cchip tl" data-at="topLeft"><small>Top left</small><b></b><select data-corner="topLeft" aria-label="Top left corner"></select></label>
+          <label class="cchip tr" data-at="topRight"><small>Top right</small><b></b><select data-corner="topRight" aria-label="Top right corner"></select></label>
+          <div class="ce-mid"><span>Double-tap a corner to run it</span><button class="ce-done" data-action="corners-done">Done</button></div>
+          <label class="cchip bl" data-at="bottomLeft"><small>Bottom left</small><b></b><select data-corner="bottomLeft" aria-label="Bottom left corner"></select></label>
+          <label class="cchip br" data-at="bottomRight"><small>Bottom right</small><b></b><select data-corner="bottomRight" aria-label="Bottom right corner"></select></label>
+        </div>
+      </div>
+
+      <div class="tiles">
+        <button class="tile" data-tile="haptic" data-g>
+          <span class="disc"><svg viewBox="0 0 24 24"><path d="M5 9v6M9 6v12M15 6v12M19 9v6"/></svg></span>
+          <span class="tx"><b>Haptics</b><small id="haptic-label">Medium</small></span>
+        </button>
+        <button class="tile" data-tile="quickMute" data-g>
+          <span class="disc"><svg viewBox="0 0 24 24"><path d="M4 9V6.5A2.5 2.5 0 0 1 6.5 4H9M15 4h2.5A2.5 2.5 0 0 1 20 6.5V9M20 15v2.5a2.5 2.5 0 0 1-2.5 2.5H15M9 20H6.5A2.5 2.5 0 0 1 4 17.5V15"/></svg></span>
+          <span class="tx"><b>Corners</b><small id="corners-label">Double-tap</small></span>
+        </button>
+        <button class="tile" data-tile="mediaStrip" data-g>
+          <span class="disc"><svg viewBox="0 0 24 24"><path d="m4 6 7 6-7 6zM13 6l7 6-7 6z"/></svg></span>
+          <span class="tx"><b>Media</b><small>Bottom edge</small></span>
+        </button>
+        <button class="tile" data-tile="topStrip" data-g>
+          <span class="disc"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="2.5"/><path d="M8 14.5h8"/><path d="M12 2.5v2M7 3.5l1 1.5M17 3.5l-1 1.5"/></svg></span>
+          <span class="tx"><b>Key light</b><small>Top edge</small></span>
+        </button>
+      </div>
+
+      <div class="sliders">
+        <div class="cc-slider" data-g data-key="sensitivity" data-min="0.5" data-max="3" data-step="0.25">
+          <div class="cc-fill"></div>
+          <svg viewBox="0 0 24 24"><path d="M4 18c3-8 5-12 8-12s5 4 8 12"/></svg>
+          <b>Sensitivity</b><span class="cc-val"></span>
+        </div>
+        <div class="cc-slider" data-g data-key="edgeWidth" data-min="0.03" data-max="0.15" data-step="0.01">
+          <div class="cc-fill"></div>
+          <svg viewBox="0 0 24 24"><path d="M5 5v14M19 5v14M9 12h6"/></svg>
+          <b>Edge width</b><span class="cc-val"></span>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <button class="round" data-g data-action="settings" title="Settings"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
+        <span class="update" id="update-pill" hidden data-action="restart">Restart to update</span>
+        <span class="spacer"></span>
+        <button class="round" data-g data-action="more" title="More"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="18" cy="12" r="1.2" fill="currentColor"/></svg></button>
+        <button class="round" data-g data-action="quit" title="Quit Brink"><svg viewBox="0 0 24 24"><path d="M12 4v7"/><path d="M7 6.8a7 7 0 1 0 10 0"/></svg></button>
+      </footer>
+    </section>
+
+    <!-- ================= SETTINGS ================= -->
+    <section class="view" id="view-settings" hidden>
+      <header class="top">
+        <button class="round back" data-g data-action="back" title="Back"><svg viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></svg></button>
+        <div class="title">Settings</div>
+        <span class="ver" id="version">1.0</span>
+      </header>
+      <div class="scroll" id="settings-scroll">
+
+      <h6>Edges</h6>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Swap sides</b><span id="swap-desc">Brightness left, volume right</span></div><input type="checkbox" class="switch" data-key="swapSides" /></label>
+        <div class="item"><div class="txt"><b>Active area</b><span>Where a slide may start</span></div>
+          <label class="select"><select data-key="activeArea">
+            <option value="anywhere">Whole edge</option><option value="threequarters">Bottom ¾</option>
+            <option value="half">Bottom half</option><option value="quarter">Bottom quarter</option>
+          </select></label></div>
+        <label class="item"><div class="txt"><b>Only with Fn or ⌥</b><span>Slides need a held modifier</span></div><input type="checkbox" class="switch" data-key="requireModifier" /></label>
+      </div>
+
+      <h6>While sliding</h6>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Hold the pointer</b><span>It stays put and hidden</span></div><input type="checkbox" class="switch" data-key="freezeCursor" /></label>
+        <label class="item"><div class="txt"><b>Fine control</b><span>Hold ⇧⌥ for quarter steps</span></div><input type="checkbox" class="switch" data-key="fineControl" /></label>
+        <label class="item"><div class="txt"><b>Precise sliding</b><span>Always quarter steps</span></div><input type="checkbox" class="switch" data-key="preciseSliding" /></label>
+      </div>
+
+      <h6>Levels</h6>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Show the percentage</b><span>Brink's glass HUD instead of macOS's</span></div><input type="checkbox" class="switch" data-key="levelHud" /></label>
+        <label class="item"><div class="txt"><b>Monitor brightness</b><span>Sets an external monitor's brightness directly (DDC/CI) when the pointer is on it</span></div><input type="checkbox" class="switch" data-key="monitorBrightness" /></label>
+      </div>
+
+      <h6>Media strip</h6>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Slide to seek</b><span>Drag the bottom edge to move through a video or song. Tap its left, middle or right for previous, play/pause, next. Off: swipe for the next song</span></div><input type="checkbox" class="switch" data-key="bottomSeek" /></label>
+        <label class="item"><div class="txt"><b>Reverse direction</b><span>Left goes forward on the bottom edge</span></div><input type="checkbox" class="switch" data-key="reverseSwipe" /></label>
+        <label class="item"><div class="txt"><b>Double-tap to play/pause</b><span>Off keeps clicks near the edge safe</span></div><input type="checkbox" class="switch" data-key="tapToPlay" /></label>
+      </div>
+
+      <h6>Window gestures</h6>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Top of a window</b><span>Point at the top strip of any window, then swipe with two fingers, like scrolling</span></div><input type="checkbox" class="switch" data-key="windowGestures" /></label>
+        <div class="item cheats" id="cheats-title">
+          <span><i>↑</i>Fill screen</span><span><i>← →</i>Half</span>
+          <span><i>↖ ↘</i>Quarter</span><span><i>↓</i>Back or minimize</span>
+          <p class="hint">A preview shows where it goes. Lift to place it, slide back to cancel.</p>
+        </div>
+      </div>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Dock</b><span>Point at an app in the Dock, then swipe with two fingers</span></div><input type="checkbox" class="switch" data-key="dockGestures" /></label>
+        <div class="item cheats" id="cheats-dock">
+          <span><i>↑</i>Show windows</span><span><i>↓</i>Hide app</span>
+          <span><i>← →</i>Next window</span>
+        </div>
+      </div>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Drag dividers</b><span>Windows side by side resize together</span></div><input type="checkbox" class="switch" data-key="dragDividers" /></label>
+        <label class="item"><div class="txt"><b>Keyboard</b><span>⌃⌥ with arrows, U I J K, D F G, E T, C</span></div><input type="checkbox" class="switch" data-key="windowKeys" /></label>
+      </div>
+
+      <h6>General</h6>
+      <div class="card list">
+        <label class="item"><div class="txt"><b>Magic Mouse</b><span>Slide along the mouse's sides</span></div><input type="checkbox" class="switch" data-key="magicMouse" /></label>
+        <div class="item"><div class="txt"><b>Glass backdrop</b><span>What the glass bends</span></div>
+          <div class="seg" data-key="backdrop"><button data-value="ribbons">Ribbons</button><button data-value="wallpaper">Wallpaper</button></div></div>
+        <div class="item"><div class="txt"><b>Appearance</b></div>
+          <div class="seg" data-key="appearance"><button data-value="light">Light</button><button data-value="dark">Dark</button></div></div>
+        <label class="item"><div class="txt"><b>Open at login</b></div><input type="checkbox" class="switch" data-key="openAtLogin" /></label>
+      </div>
+      </div>
+    </section>
+
+    <div class="menu" id="menu" hidden>
+      <button data-action="update">Check for Updates…</button>
+      <button data-action="enabled" id="menu-enabled">Pause Brink</button>
+      <button data-action="site">Brink Website</button>
+      <hr />
+      <button data-action="quit">Quit Brink</button>
+    </div>
+    <div class="toast" id="toast" hidden></div>
+    <i class="rim" aria-hidden="true"></i>
+  </liquid-glass>
+  <script src="app.js?v=1010"></script>
+  <script src="embed.js?v=1010"></script>
+</body>
+</html>
