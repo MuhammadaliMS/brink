@@ -187,7 +187,7 @@ dependencies = [
 
 [[package]]
 name = "brink"
-version = "1.0.10"
+version = "1.0.11"
 dependencies = [
  "block2",
  "log",

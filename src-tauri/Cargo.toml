@@ -1,6 +1,6 @@
 [package]
 name = "brink"
-version = "1.0.10"
+version = "1.0.11"
 description = "Turn your MacBook trackpad edges into volume and brightness controls"
 authors = ["Zerowing Studios"]
 license = "GPL-3.0-only"
