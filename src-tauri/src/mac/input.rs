@@ -120,7 +120,11 @@ pub fn apply(shared: &Shared, effects: Vec<Effect>) {
                         if level {
                             super::betterdisplay::note_key();
                         }
-                        output::post_key(key, quarter)
+                        if matches!(key, PlayPause | Next | Previous) {
+                            super::media::when_something_is_open(move || output::post_key(key, quarter));
+                        } else {
+                            output::post_key(key, quarter)
+                        }
                     }
                 }
                 changed = true;

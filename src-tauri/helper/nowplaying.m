@@ -1,7 +1,8 @@
 // Brink's Now Playing reader and remote. Since macOS 15.4 only Apple-signed processes may read what's
 // playing, so Brink runs this inside /usr/bin/perl (an Apple platform binary), which loads it
 // with DynaLoader and calls brink_np_loop. Each "get" line on stdin answers one JSON line:
-// {"elapsed": seconds now, "duration": seconds, "rate": 0|1}, or {} when nothing is playing.
+// {"elapsed": seconds now, "duration": seconds, "rate": 0|1}; {"rate": 0|1} for something with no
+// length (a live stream); {} when no app is in Now Playing; {"unknown": true} when it didn't answer.
 // "set <seconds>" moves the playhead and "cmd <n>" sends a MediaRemote command (2 play/pause,
 // 4 next, 5 previous); neither answers. Commands go out from here too, not from Brink: what's
 // playing honours them from an Apple process. It exits when Brink closes stdin (Brink quit).
@@ -16,14 +17,19 @@ typedef bool (*SendCommand)(unsigned, CFDictionaryRef);
 
 static NSString *answer(GetInfo info) {
   dispatch_semaphore_t done = dispatch_semaphore_create(0);
-  __block NSDictionary *out = @{};
+  // No reply in time: say so, rather than claim nothing is playing.
+  __block NSDictionary *out = @{@"unknown" : @YES};
   info(dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0), ^(CFDictionaryRef d) {
     NSDictionary *n = (__bridge NSDictionary *)d;
     NSNumber *elapsed = n[@"kMRMediaRemoteNowPlayingInfoElapsedTime"];
     NSNumber *duration = n[@"kMRMediaRemoteNowPlayingInfoDuration"];
     NSNumber *rate = n[@"kMRMediaRemoteNowPlayingInfoPlaybackRate"];
     NSDate *stamp = n[@"kMRMediaRemoteNowPlayingInfoTimestamp"];
-    if (duration.doubleValue > 0) {
+    if (n.count == 0) {
+      out = @{};  // nothing in Now Playing at all
+    } else if (duration.doubleValue <= 0) {
+      out = @{@"rate" : rate ?: @0};  // something with no length (a live stream)
+    } else {
       double e = elapsed.doubleValue;
       // The elapsed time is as of the timestamp: move it on to now while playing.
       if (rate.doubleValue > 0 && [stamp isKindOfClass:NSDate.class]) e += rate.doubleValue * -stamp.timeIntervalSinceNow;

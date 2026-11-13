@@ -544,9 +544,21 @@ impl Engine {
                         Key::Next if s.reverse_swipe => Key::Previous,
                         k => k,
                     };
-                    out.push(Effect::MediaTap { key, held: now - t0 });
+                    // "Double-tap to play/pause": the middle waits for a second tap, so a stray
+                    // one (a palm, a thumb resting there) doesn't start or stop anything.
+                    let fire = if key == Key::PlayPause && s.tap_to_play {
+                        let second = now - self.last_bottom_tap <= DOUBLE_TAP_GAP;
+                        self.last_bottom_tap = if second { -10.0 } else { now };
+                        second
+                    } else {
+                        self.last_bottom_tap = -10.0;
+                        true
+                    };
+                    if fire {
+                        out.push(Effect::MediaTap { key, held: now - t0 });
+                        Self::tick_haptic(s.haptic, out);
+                    }
                     out.push(Effect::SuppressClicks);
-                    Self::tick_haptic(s.haptic, out);
                 }
             } else if quick && zone == Zone::Bottom && s.tap_to_play {
                 if now - self.last_bottom_tap <= DOUBLE_TAP_GAP {
@@ -768,6 +780,29 @@ mod tests {
         let mut all = e.frame(&one(0.5, 0.5), 0.0, Mods::default(), &s);
         all.extend(e.frame(&[], 0.1, Mods::default(), &s));
         assert!(!all.iter().any(|x| matches!(x, Effect::MediaTap { .. })));
+    }
+
+    #[test]
+    fn double_tap_setting_guards_the_middle() {
+        let s = Settings { tap_to_play: true, ..Default::default() };
+        let taps = |e: &mut Engine, x: f32, t: f64| {
+            let mut all = e.frame(&one(x, 0.03), t, Mods::default(), &s);
+            all.extend(e.frame(&one(x, 0.03), t + 0.05, Mods::default(), &s));
+            all.extend(e.frame(&[], t + 0.08, Mods::default(), &s));
+            all.iter().filter_map(|x| if let Effect::MediaTap { key, .. } = x { Some(*key) } else { None }).collect::<Vec<_>>()
+        };
+        // One tap in the middle does nothing; a second one soon after plays/pauses.
+        let mut e = Engine::new();
+        assert!(taps(&mut e, 0.5, 0.0).is_empty());
+        assert_eq!(taps(&mut e, 0.5, 0.25), vec![Key::PlayPause]);
+        // Two taps too far apart are two stray taps.
+        let mut e = Engine::new();
+        assert!(taps(&mut e, 0.5, 0.0).is_empty());
+        assert!(taps(&mut e, 0.5, 1.0).is_empty());
+        // Previous and next stay single taps.
+        let mut e = Engine::new();
+        assert_eq!(taps(&mut e, 0.15, 0.0), vec![Key::Previous]);
+        assert_eq!(taps(&mut e, 0.85, 1.0), vec![Key::Next]);
     }
 
     #[test]

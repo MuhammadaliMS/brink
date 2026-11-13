@@ -117,6 +117,36 @@ fn set_position(secs: f64) {
 
 /// What's playing: (seconds in, length in seconds). None when nothing is, or it can't be read.
 pub fn now_playing() -> Option<(f64, f64)> {
+    let v = ask()?;
+    let duration = v.get("duration")?.as_f64()?;
+    let elapsed = v.get("elapsed")?.as_f64()?;
+    (duration > 0.0).then_some((elapsed.clamp(0.0, duration), duration))
+}
+
+/// Whether any app is in Now Playing, playing or paused. None when that can't be read.
+fn anything_open() -> Option<bool> {
+    let v = ask()?;
+    if v.get("unknown").is_some() {
+        return None;
+    }
+    Some(v.as_object().is_some_and(|o| !o.is_empty()))
+}
+
+/// Runs `send` (a play/pause, next or previous) only when an app is in Now Playing. With none,
+/// macOS hands those to Apple Music and opens it, which a stray tap should never do. The check
+/// talks to the helper, so it runs off the trackpad thread.
+pub fn when_something_is_open(send: impl FnOnce() + Send + 'static) {
+    std::thread::spawn(move || {
+        if anything_open() == Some(false) {
+            log::info!("brink: nothing in Now Playing, media command skipped");
+        } else {
+            send();
+        }
+    });
+}
+
+/// One "get" to the helper, as JSON.
+fn ask() -> Option<serde_json::Value> {
     let mut guard = HELPER.lock();
     for _ in 0..2 {
         if guard.is_none() {
@@ -131,10 +161,7 @@ pub fn now_playing() -> Option<(f64, f64)> {
             *guard = None;
             continue;
         }
-        let v: serde_json::Value = serde_json::from_str(line.trim()).ok()?;
-        let duration = v.get("duration")?.as_f64()?;
-        let elapsed = v.get("elapsed")?.as_f64()?;
-        return (duration > 0.0).then_some((elapsed.clamp(0.0, duration), duration));
+        return serde_json::from_str(line.trim()).ok();
     }
     None
 }
@@ -298,7 +325,9 @@ pub fn button(key: crate::engine::Key) {
         Key::Next => NEXT,
         _ => TOGGLE_PLAY_PAUSE,
     };
-    command(c);
+    when_something_is_open(move || {
+        command(c);
+    });
 }
 
 pub fn scrub_start() {
